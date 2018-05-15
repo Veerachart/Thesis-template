@@ -1,0 +1,11 @@
+*.aux
+*.bbl
+*.lof
+*.lot
+*.mtc*
+*.out
+*.toc
+*.log
+*.blg
+*.maf
+*.dvi

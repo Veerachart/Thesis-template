@@ -1,0 +1,167 @@
+%!TEX encoding = UTF-8 Unicode
+\documentclass[12pt, a4paper, twoside, openright,dvipdfmx]{report}		% For English Thesis (The words Chapter, Figure, etc. are in English.)
+
+% Here's just for generating random texts to fill up some pages
+\usepackage[english]{babel}
+\usepackage{blindtext}
+%%%%%%%%%% remove in real thesis %%%%%%%%%%
+
+% Margin based on Precision Engineering's Japanese version in Microsoft Word file
+\usepackage[top=3.5cm,bottom=3cm,left=2.5cm,right=2.5cm]{geometry}		% use option showframe to draw the frame on every page for checking page boundary
+% For adding figures
+\usepackage[dvipdfmx]{graphicx}
+% For page's header & footer
+\usepackage{fancyhdr}
+% The cover's box
+\usepackage{fancybox}
+% For regular mathematics equations, etc.
+\usepackage{amsmath}
+% For combining multiple cites into [8-12], etc. (Not that compulsory but useful)
+\usepackage{cite}
+% For mini table of contents in each chapter
+\usepackage{minitoc}
+% For subfigures
+\usepackage{subcaption}					% Not everyone may need this
+% Add List of Figures/Tables & bibliography to the table of contents
+\usepackage{tocbibind}
+% Said to avoid getting citing number 1 in List of Figures/Table
+\usepackage{notoccite}
+% For adding links within your PDF output, so you can click on figure's name and you will jump to the figure.
+% function \hyperref is also useful so you don't have to type Figure~\ref{fig:xxx} every time
+\PassOptionsToPackage{hyphens}{url}\usepackage[dvipdfmx,hidelinks]{hyperref}
+
+
+% For adding List of Publications in addition to the bibliography
+% Still cannot find a way to make it nicely with separated category (journals, intl conf, domestic conf etc.)
+% You can compile the bib file of the publication list and take each bibitem in bbl file
+\usepackage[resetlabels]{multibib}
+\newcites{pub}{List of Publications}
+
+
+% Optional: uncomment the one you need
+\usepackage{booktabs}					% Nice table IMO
+% \usepackage{times}					% If you want Times New Roman font (not so nice for LaTeX though
+% Want to draw figures by Tikz? You need to add two packages below in this order
+% A bit hard to learn and adjust for the best result, but you get a textbook-like figures
+% \usepackage[dvipdfmx]{color}
+% \usepackage{tikz}
+% You may also need these Tikz library
+% \usetikzlibrary{shapes,arrows,matrix,fit,shapes.multipart,decorations.pathreplacing,calc, patterns,positioning,backgrounds}
+% For changing from default single-space to something else
+% \usepackage{setspace}
+% \onehalfspacing						% 1.5 spacing
+% \doublespacing						% double space - you get more pages!!!
+% \setstretch{1.2}						% Some arbitrary 
+% Package tabularx to spread the table to the desired width
+% \usepackage{tabularx}
+% \newcolumntype{Y}{>{\centering\arraybackslash}X}	% define new type Y for tabularx - expand, with the text in the center
+
+\let\stdsection\section
+\let\stdminitoc\minitoc
+\makeatletter
+\renewcommand\section{\clearpage\stdsection}		% Make new section always start on new page
+\renewcommand\minitoc{\stdminitoc\vspace{1em}}		% Add some more space below minitoc
+\makeatother
+
+\graphicspath{{figs/}}								% Relative folders to figures
+
+% These are optional and depend on your taste
+\renewcommand{\thesubsubsection}{\alph{subsubsection}.}		% Change subsubsection into a. b. c., otherwise it would be 1.2.4.1, 1.2.4.2, etc. (too long for me)
+%\renewcommand{\algorithmautorefname}{Algorithm}		%
+\renewcommand{\chapterautorefname}{Chapter}			% Capitalize all autorefs
+\renewcommand{\sectionautorefname}{Section}			%
+\renewcommand{\subsectionautorefname}{Subsection}	%
+
+\setcounter{secnumdepth}{3}				% Limit the depth of the table of contents to subsection (chapter, section, subsection)
+
+\begin{document}
+\pagenumbering{Roman}
+\begin{titlepage}
+
+% Putting a box around the page
+\thisfancypage{%
+	\setlength{\fboxrule}{1pt}
+	\doublebox}{}
+\begin{center}
+
+\null
+\vspace{1cm}
+{\large 平成○○年度　博士論文}\\
+\vspace{0.5cm}
+\includegraphics[width=0.3\textwidth]{logo_todai.png}
+
+\vspace{2cm}
+{\Huge\bf How to Write Thesis using\\
+\LaTeX
+}
+
+\vspace{1cm}
+{\Huge\bf (\LaTeX で論文を書く方法)}
+\\
+\vfill
+{\large 指導教員　太郎　東大　教授}
+
+\vspace{2.5cm}
+東京大学大学院　○○○研究科　○○○○専攻
+
+\vspace{0.2cm}
+学生証番号 xx-xxxxxx
+
+\vspace{0.5cm}
+{\Large\bf Mike Miller}
+
+\vspace{0.5cm}
+{\Large マイク　ミラー}
+
+\vspace{2.0cm}
+\end{center}
+\end{titlepage}
+
+\cleardoublepage
+\pagenumbering{roman}
+\pagestyle{plain}
+
+\input{Chapters/Acknowledgments}
+\newpage
+
+\input{Chapters/Abstract}
+\newpage
+
+\dominitoc
+\tableofcontents
+\newpage
+
+\listoffigures \mtcaddchapter
+\newpage
+
+\listoftables \mtcaddchapter
+\cleardoublepage
+
+\pagenumbering{arabic}
+\setcounter{chapter}{0}
+\setcounter{section}{0}
+\def\thechapter{\arabic{chapter}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\emph{\leftmark}}			% Chapter X. NAME	on the left (even) page
+\fancyhead[RO]{\small\emph{\rightmark}}			% X.Y SECTION NAME 	on the right (odd) page
+%\fancyfoot[LE,RO]{\emph{\rightmark}}
+\fancyfoot[CE,CO]{\thepage}						% Page number in the center
+
+\setcounter{mtc}{5}								% The number depends on how many chapters (including ToC, LoF, LoT)
+
+\input{Chapters/Introduction}
+\newpage
+
+\cleardoublepage
+\def\thechapter{}
+\def\@chapapp{}
+
+\bibliographypub{bibpub}			% "pub" after \bibliography here must match with \newcites{pub} in line 29
+\bibliographystylepub{unsrt}		% here as well
+\nocitepub{*}						% here too
+\cleardoublepage
+
+\bibliography{Ref}\bibliographystyle{unsrt}
+
+\end{document}
