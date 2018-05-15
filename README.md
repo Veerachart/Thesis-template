@@ -4,12 +4,14 @@ Mainly this is designed for making the title page in Japanese, but the rest of t
 
 To compile this,
 
+```
 platex Thesis_template.tex
 bibtex Thesis_template.aux
 bibtex pub.aux
 platex Thesis_template.tex
 platex Thesis_template.tex
 dvipdfmx Thesis_template.dvi
+```
 
 bibtex is needed only when the bib files have been changed, otherwise only once or twice of platex and once of dvipdfmx should be enough to generate the correct output with correct references. (or use pdfplatex)
 
